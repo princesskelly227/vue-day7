@@ -1,16 +1,49 @@
 <template>
   <div class="my-tab-bar">
-    <div class="tab-item">
+    <div
+      class="tab-item"
+      v-for="item in list"
+      :key="item.componentName"
+      :class="{ current: currentIndex == item.componentName }"
+      @click="currFn(item.componentName)"
+    >
       <!-- 图标 -->
-      <span class="iconfont"></span>
+      <span class="iconfont" :class="item.iconText"></span>
       <!-- 文字 -->
-      <span></span>
+      <span>{{ item.text }}</span>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      currentIndex: 'MyGoodsList',
+    };
+  },
+  props: {
+    list: {
+      type: Array,
+      required: true,
+      // 验证规则
+      validator(value) {
+        if (value.length >= 2 && value.length <= 5) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+    },
+  },
+  methods: {
+    currFn(val) {
+      this.currentIndex = val;
+      this.$emit('cheage', val);
+      // console.log(val);
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>
@@ -29,6 +62,7 @@ export default {};
     display: flex;
     flex-direction: column;
     align-items: center;
+    cursor: pointer;
   }
 }
 
