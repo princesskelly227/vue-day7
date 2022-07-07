@@ -22,7 +22,9 @@
           >
         </td>
         <td>
-          <button class="btn btn-danger btn-sm">删除</button>
+          <button class="btn btn-danger btn-sm" @click="delFn(scope.row.id)">
+            删除
+          </button>
         </td>
       </template>
     </MyTable>
@@ -47,6 +49,14 @@ export default {
       // console.log(res.data.data);
       this.list = res.data.data;
     });
+  },
+  methods: {
+    delFn(id) {
+      const index = this.list.findIndex((ele) => {
+        return ele.id === id;
+      });
+      this.list.splice(index, 1);
+    },
   },
 };
 </script>
