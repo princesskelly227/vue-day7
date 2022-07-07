@@ -1,6 +1,6 @@
 <template>
   <div class="my-tab-bar">
-  	<div class="tab-item" v-for="item in list" :key="item.componentName">
+  	<div class="tab-item" v-for="item in list" :key="item.componentName" @click="clickfn(item.componentName)" :class="{current:item.componentName==Current}">
       <!-- 图标 -->
       <span class="iconfont" :class="item.iconText"></span>
       <!-- 文字 -->
@@ -11,8 +11,29 @@
 
 <script>
 export default {
+    data(){
+        return{
+            Current:'MyGoodsList'
+        }
+    },
   props:{
-    list:[]
+    list:{
+        type:Array,
+        validator(val){
+            if(val.length>=2&&val.length<=5){
+                return true
+            }
+            return false;
+        }
+    },
+    
+  },
+  methods:{
+    clickfn(val){
+        this.Current=val
+        this.$emit('Tab',val)
+        console.log(val);
+    }
   }
 }
 </script>

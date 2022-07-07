@@ -1,7 +1,10 @@
 <template>
   <div>
-    <MyHeader :title="tabbar"></MyHeader>
-    <MyTabBar :list="tabList"></MyTabBar>
+    <MyHeader title="tabbar"></MyHeader>
+    <div style="margin-top:45px">
+        <component :is='Name'></component>
+    </div>
+    <MyTabBar :list="tabList" @Tab="change"></MyTabBar>
   </div>
 </template>
 
@@ -31,6 +34,7 @@ export default {
           componentName: "MyUserInfo",
         },
       ],
+      Name:'MyGoodsList'
     };
   },
   components: {
@@ -40,6 +44,11 @@ export default {
     MyGoodsSearch,
     MyUserInfo,
   },
+  methods:{
+    change(val){
+        this.Name = val
+    }
+  }
 };
 </script>
 
