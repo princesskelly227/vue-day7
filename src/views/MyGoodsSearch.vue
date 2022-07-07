@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div>MyGoodsSearch.vue</div>
 </template>
 
 <script>
