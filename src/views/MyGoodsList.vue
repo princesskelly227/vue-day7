@@ -13,6 +13,25 @@
         <td>{{ scope.row.goods_name }}</td>
         <td>{{ scope.row.goods_price }}</td>
         <td>
+          <input
+            class="tag-input form-control"
+            style="width: 100px"
+            type="text"
+            v-if="scope.row.inputVisible"
+            v-focus
+            v-model="scope.row.inputValue"
+            @blur="scope.row.inputVisible = false"
+            @keydown.enter="enterFn(scope.row)"
+            @keydown.esc="scope.row.inputValue = ''"
+          />
+          <button
+            v-else
+            style="display: block"
+            class="btn btn-primary btn-sm add-tag"
+            @click="scope.row.inputVisible = true"
+          >
+            +Tag
+          </button>
           <span
             style="margin-right: 10px"
             class="badge badge-info"
@@ -24,6 +43,14 @@
         <td>
           <button class="btn btn-danger btn-sm" @click="delFn(scope.row.id)">
             删除
+          </button>
+          <button
+            style="margin-left: 10px"
+            type="button"
+            class="btn btn-info"
+            @click="getqx()"
+          >
+            详情
           </button>
         </td>
       </template>
@@ -56,6 +83,16 @@ export default {
         return ele.id === id;
       });
       this.list.splice(index, 1);
+    },
+    enterFn(obj) {
+      if (obj.inputValue.trim() == '') {
+        return alert('请输入');
+      }
+      obj.tags.push(obj.inputValue); // 表单里的字符串状态tags数组
+      obj.inputValue = '';
+    },
+    getqx() {
+      console.log(this.list);
     },
   },
 };
