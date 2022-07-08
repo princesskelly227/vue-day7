@@ -49,6 +49,7 @@
             type="button"
             class="btn btn-info"
             @click="getqx()"
+            v-hasProm="Math.floor(Math.random() * 5)"
           >
             详情
           </button>
@@ -64,6 +65,7 @@ export default {
   data() {
     return {
       list: [],
+      arr: ['admin', 'view', 'update'],
     };
   },
   components: {
@@ -93,6 +95,20 @@ export default {
     },
     getqx() {
       console.log(this.list);
+    },
+  },
+
+  directives: {
+    hasProm: {
+      inserted(el, binding, vnode) {
+        const show = vnode.context.arr.includes(
+          vnode.context.arr[binding.value]
+        );
+        if (!show) {
+          // console.log(show);
+          el.style.display = 'none';
+        }
+      },
     },
   },
 };
