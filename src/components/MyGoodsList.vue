@@ -40,7 +40,8 @@
           >
         </td>
         <td>
-          <button class="btn btn-danger btn-sm" @click="del(scope.row.id)" v-Permissions='arr'>删除</button>
+          <button class="btn btn-danger btn-sm" @click="del(scope.row.id)" v-Permissions='scope.row.Permissions'>删除</button>
+          <button style='float: right' class="btn btn-danger btn-sm" @click="detail(scope.row) ">详情</button>
         </td>
       </template>
     </MyTable>
@@ -56,15 +57,17 @@ export default {
   data() {
     return {
       list: [],
-      arr:[1,2,3]
+      arr:[1,2]
     };
   },
   created() {
     this.$axios({
       url: "/api/goods",
     }).then((res) => {
-      console.log(res);
+      // console.log(res);
+      res.data.data.forEach(ele=>ele.Permissions=Math.floor(Math.random()*4))
       this.list = res.data.data;
+      console.log(this.list);
     });
   },
   directives: {
@@ -75,9 +78,10 @@ export default {
     },
     Permissions:{
         inserted(el,bind,vnode){
-            console.log(bind);
-            console.log(vnode);
-            if(bind.value.indexOf(4)==-1){
+            // console.log(bind);
+            // console.log(vnode);
+            // console.log(bind.value);
+            if(vnode.context.arr.indexOf(bind.value)==-1){
                 el.parentNode.removeChild(el);
             }
         }
@@ -93,8 +97,12 @@ export default {
       val.inputValue = "";
     },
     del(id){
-        const index=this.list.findIndex(ele=>ele.id=id)
+      console.log(id);
+        const index=this.list.findIndex(ele=>ele.id==id)
         this.list.splice(index,1);
+    },
+    detail(val){
+      alert(`商品名称：${val.goods_name}\n价格：${val.goods_price}\n标签：${val.tags}`)
     }
   },
 };
